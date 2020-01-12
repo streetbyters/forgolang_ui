@@ -1,7 +1,21 @@
-// This is just an example,
-// so you can safely delete all default props below
-
 export default {
   failed: 'Action failed',
-  success: 'Action was successful'
+  success: 'Action was successful',
+  categories: 'Categories',
+  category: 'Category',
+  user: 'User',
+  login: 'Login',
+  logout: 'Logout',
+  register: 'Register',
+  totalDiscussion: 'Total Discussion {count}',
+  forgotPassword: 'Forgot Password',
+  thirdPartyLoginSuccess: 'Your information verified. Redirecting',
+  thirdPartyLoginFailed: 'Your information not verified. Please! try again.',
+  all: 'All',
+  new: 'New',
+  show: 'Show',
+  enterSearchTerm: 'Enter the search term',
+  slugErrorText: 'Slug is automatically generated according to the title you entered. An error occurs if you do not enter a unique title.',
+  actionRequired: 'Action Required',
+  deleteAction: 'Are you sure you want to delete it?'
 }
