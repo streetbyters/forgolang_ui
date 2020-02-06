@@ -1,11 +1,11 @@
 {
   "name": "forgolang_ui",
   "version": "0.0.1",
-  "description": "Discussion forum User Interface for @forgolang/forgolang_forum",
-  "productName": "Forgolang.com UI",
+  "description": "Discussion forum for golang",
+  "productName": "Forgolang.com",
   "cordovaId": "com.forgolang.ui",
   "capacitorId": "",
-  "author": "akdilsiz <akdilsiz@tecpor.com>",
+  "author": "Street Byters Community <https://github.com/streetbyters/forgolang_ui>",
   "private": true,
   "scripts": {
     "lint": "eslint --ext .js,.vue src",
@@ -14,7 +14,11 @@
   "dependencies": {
     "@quasar/extras": "^1.0.0",
     "axios": "^0.18.1",
+    "jwt-decode": "^2.2.0",
+    "mavon-editor": "^2.7.7",
     "quasar": "^1.0.0",
+    "query-string": "^6.9.0",
+    "uri-js": "^4.2.2",
     "vue-i18n": "^8.0.0"
   },
   "devDependencies": {

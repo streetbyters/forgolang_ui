@@ -1,6 +1,11 @@
 # Forgolang.com UI (forgolang_ui)
 
-Discussion forum User Interface for @forgolang/forgolang_forum
+Discussion forum User Interface for @streetbyters/forgolang_forum
+
+## Get repo
+```bash
+git clone -b develop https://github.com/forgolang/forgolang_ui
+```
 
 ## Install the dependencies
 ```bash
