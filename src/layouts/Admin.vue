@@ -39,6 +39,26 @@
               <q-item-label class="text-black">{{ $t('all') }}</q-item-label>
             </q-item-section>
           </q-item>
+          <q-item v-ripple exact :inset-level=".5" clickable tag="a" to="/admin/category/new">
+            <q-item-section>
+              <q-item-label class="text-black">{{ $t('new') }}</q-item-label>
+            </q-item-section>
+          </q-item>
+        </q-expansion-item>
+        <q-expansion-item
+          :label="$t('users')"
+          :value="$route.path.search('user') > -1"
+        >
+          <q-item v-ripple exact :inset-level=".5" clickable tag="a" to="/admin/user">
+            <q-item-section>
+              <q-item-label class="text-black">{{ $t('all') }}</q-item-label>
+            </q-item-section>
+          </q-item>
+          <q-item v-ripple exact :inset-level=".5" clickable tag="a" to="/admin/user/new">
+            <q-item-section>
+              <q-item-label class="text-black">{{ $t('new') }}</q-item-label>
+            </q-item-section>
+          </q-item>
         </q-expansion-item>
       </q-list>
       <q-separator/>
@@ -50,7 +70,6 @@
         </q-item>
       </q-list>
     </q-drawer>
-
     <q-page-container>
       <transition
         appear

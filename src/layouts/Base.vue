@@ -115,17 +115,19 @@ export default {
     },
     role () {
       return this.$store.getters.ROLE
+    },
+    categories () {
+      return this.$store.getters.CATEGORIES
     }
   },
   data () {
     return {
-      categories: [],
       leftDrawerOpen: false,
       isManager: false
     }
   },
   mounted () {
-    this.getCategories()
+    this.$store.dispatch('GET_CATEGORIES', this)
   },
   methods: {
     logout (e) {
@@ -155,12 +157,6 @@ export default {
       this.$store.commit('SET_USER', {})
       // this.$router.push('/')
       this.$q.loading.hide()
-    },
-    getCategories () {
-      const self = this
-      this.$axios.get('/category').then(({ data }) => {
-        self.categories = data.data
-      })
     }
   },
   watch: {}

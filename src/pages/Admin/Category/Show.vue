@@ -2,9 +2,9 @@
   <q-page class="q-pa-md">
     <q-card flat bordered>
       <q-card-section>
-        <div class="text-h4">{{ `${$t('new')} ${$t('category')}` }}</div>
+        <div class="text-h4">{{ category.title }}</div>
       </q-card-section>
-      <q-separator dark />
+      <q-separator />
       <q-card-section>
         <q-form
           @submit="submit"
@@ -24,13 +24,19 @@
             v-model="category.description"
             label="Description"
           />
+          <q-input
+            filled
+            disable
+            v-model="category.slug"
+            label="Slug"
+          />
           <div>
             <p class="text-warning">
               *** {{ $t('slugErrorText') }}
             </p>
           </div>
           <div>
-            <q-btn label="Submit" type="submit" color="primary"/>
+            <q-btn label="Update" type="submit" color="primary"/>
           </div>
         </q-form>
       </q-card-section>
@@ -41,7 +47,7 @@
 <script>
 import ErrorDialog from '@/components/ErrorDialog'
 export default {
-  name: 'New',
+  name: 'Show',
   data () {
     return {
       category: {
@@ -51,15 +57,28 @@ export default {
       }
     }
   },
+  mounted () {
+    this.getCategory()
+  },
   methods: {
+    getCategory () {
+      const self = this
+      this.$axios.get(`/category/${this.$route.params.id}`).then(({ data }) => {
+        self.category = data.data
+      }).catch(() => {
+        self.$router.push('/404')
+      })
+    },
     submit (e) {
       e.preventDefault()
       const self = this
-      this.$axios.post('/category', {
+      this.$axios.put(`/category/${this.$route.params.id}`, {
         title: this.category.title,
         description: this.category.description
       }).then(({ data }) => {
-        self.$router.push('/admin/category')
+        self.$q.notify({
+          message: self.$t('updateOperationSuccess')
+        })
       }).catch((err) => {
         err = self.$axios.errorHandler(err)
         self.$q.dialog({

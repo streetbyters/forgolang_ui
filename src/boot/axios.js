@@ -54,7 +54,7 @@ class Request {
     self.req.interceptors.response.use(response => response, (error) => {
       if (error.response) {
         const originalRequest = error.config
-        if (self.cookies.has('passphrase') && self.cookies.has('token')) {
+        if (self.cookies.has('passphrase') && self.cookies.has('token') && !originalRequest._retry) {
           if (error.response.status === 401 && !originalRequest._retry) {
             originalRequest._retry = true
             self.retrieve = true
@@ -79,14 +79,18 @@ class Request {
               self.genAuthReq()
               self.retrieve = false
               return axios(originalRequest)
+            }).catch((error) => {
+              if (error.response.status === 404 && !originalRequest._retry) {
+                self.cookies.remove('userId')
+                self.cookies.remove('type')
+                self.cookies.remove('passphraseId')
+                self.cookies.remove('passphrase')
+                self.cookies.remove('token')
+                self.app.router.push('/')
+                return Promise.reject(error)
+              }
             })
-          } else if (error.response.status === 404 && !originalRequest._retry) {
-            self.cookies.remove('userId')
-            self.cookies.remove('type')
-            self.cookies.remove('passphraseId')
-            self.cookies.remove('passphrase')
-            self.cookies.remove('token')
-            self.app.router.push('/')
+          } else {
             return Promise.reject(error)
           }
         } else {

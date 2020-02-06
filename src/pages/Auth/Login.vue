@@ -23,8 +23,8 @@
                 label="Password"
                 lazy-rules
                 :rules="[
-          val => val && val.length < 8 || 'Please enter password'
-        ]"
+                  val => val && val.length > 4 || 'Please enter password'
+                ]"
               />
               <div class="text-right q-qutter-md" style="margin-bottom: 15px">
                 <router-link to="/auth/forgotpassword" class="text-black">
@@ -96,8 +96,47 @@ export default {
     }
   },
   methods: {
-    onSubmit (e) {
-      e.preventDefault()
+    onSubmit (event) {
+      event.preventDefault()
+      const self = this
+      this.$q.loading.show()
+      this.$axios.post(`/auth/sign_in`, {
+        id: this.id,
+        password: this.password
+      }).then(({ data }) => {
+        self.$axios.setCookie('passphrase', data.data.passphrase)
+        self.$axios.setCookie('passphraseId', data.data.passphrase_id)
+        self.$axios.post(self.$axios.tokenUri, {
+          passphrase: data.data.passphrase
+        }).then(({ data }) => {
+          self.$axios.token = data.data.jwt
+          self.$axios.setCookie('token', data.data.jwt)
+          self.$axios.setCookie('userId', data.data.user_id)
+          self.$axios.setCookie('role', data.data.role)
+          self.$axios.genAuthReq()
+          self.$store.commit('SET_AUTH', {
+            userId: data.data.user_id,
+            role: data.data.role,
+            loggedIn: true
+          })
+          setTimeout(() => {
+            self.$router.push('/')
+            self.$q.loading.hide()
+          }, 2000)
+        }).catch(() => {
+          self.$q.loading.hide()
+          self.$q.notify({
+            color: 'red',
+            message: self.$t('loginFailed')
+          })
+        })
+      }).catch(({ response }) => {
+        self.$q.loading.hide()
+        self.$q.notify({
+          color: 'red',
+          message: self.$t('loginFailed')
+        })
+      })
     },
     loginWithGithub () {
       const self = this
